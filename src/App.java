@@ -1,6 +1,7 @@
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
@@ -26,6 +27,9 @@ public class App {
         // System.out.println(listaDeFilmes.size());
         // System.out.println(listaDeFilmes.get(0));
 
+        var criaDiretorio = new File("alura_stickers/assets/imagemSaida/");
+        criaDiretorio.mkdir();
+
         for (Map<String, String> filme : listaDeFilmes) {
 
             String urlImagem = filme.get("image");
@@ -33,10 +37,10 @@ public class App {
 
             InputStream inputStream = new URL(urlImagem).openStream();
 
-            String nomeArquivo = titulo + ".png";
+            String nomeArquivo = "alura_stickers/assets/imagemSaida/" + titulo + ".png";
 
             var geradora = new GeradoraDeStickers();
-            geradora.criaSticker(inputStream, nomeArquivo);
+            GeradoraDeStickers.criaSticker(inputStream, nomeArquivo);
 
             // System.out.println(filme.get("title"));
             // System.out.println(filme.get("image"));
