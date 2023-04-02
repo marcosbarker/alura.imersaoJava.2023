@@ -1,3 +1,5 @@
+
+/*
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -13,11 +15,7 @@ public class App {
     public static void main(String[] args) throws Exception {
 
         // String url = " https://imdb-api.com/en/API/Top250Movies/k_0ojt0yvm";
-        // String url =
-        // "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
-        // //IMDB
-        String url = "https://api.nasa.gov/planetary/apod?api_key=MMfRXCXqSuDvebU3Nh6Voa8T3WDXclToGvpxfouK&date"; // NASA
-
+        String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
         URI endereco = URI.create(url);
         var apiImdb = HttpClient.newHttpClient();
         var request = HttpRequest.newBuilder(endereco).GET().build();
@@ -26,7 +24,7 @@ public class App {
         // System.out.println(body);
 
         var parser = new JsonParser();
-        List<Map<String, String>> listaConteudo = parser.parse(body);
+        List<Map<String, String>> listaDeFilmes = parser.parse(body);
         // System.out.println(listaDeFilmes.size());
         // System.out.println(listaDeFilmes.get(0));
 
@@ -35,14 +33,10 @@ public class App {
 
         var geradora = new GeradoraDeStickers();
 
-        for (Map<String, String> conteudo : listaConteudo) {
+        for (Map<String, String> filme : listaDeFilmes) {
 
-            // String urlImagem = conteudo.get("image").replaceAll("(@+)(.*).jpg$",
-            // "$l.jpg");
-            String urlImagem = conteudo.get("url");
-            // .replaceAll("(@+)(.*).jpg$", "$l.jpg");
-
-            String titulo = conteudo.get("title");
+            String urlImagem = filme.get("image").replaceAll("(@+)(.*).jpg$", "$l.jpg");
+            String titulo = filme.get("title");
 
             InputStream inputStream = new URL(urlImagem).openStream();
 
@@ -50,10 +44,11 @@ public class App {
 
             GeradoraDeStickers.criaSticker(inputStream, nomeArquivo);
 
-            System.out.println(conteudo.get("title"));
+            System.out.println(filme.get("title"));
             // System.out.println(filme.get("image"));
             // System.out.println(filme.get("imDbRating"));
             System.out.println();
         }
     }
 }
+/*
